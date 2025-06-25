@@ -53,7 +53,7 @@ void drawPellets(){
             if (maze[row][col] == 0) {
                 float centerX = col * TILE_SIZE + TILE_SIZE / 2;
                 float centerY = row * TILE_SIZE + TILE_SIZE / 2;
-                DrawCircle(centerX, centerY, 3, WHITE); // Draw pellets
+                DrawCircle(centerX, centerY, 3, WHITE); 
 
             }
         }
@@ -64,11 +64,11 @@ void isGameOver(){
     for (int row = 0; row < MAP_ROWS; row++) {
         for (int col = 0; col < MAP_COLS; col++) {
             if (maze[row][col] == 0) {
-                return; // Game is not over, pellets left
+                return; 
             }
         }
     }
-    // Game over logic here, e.g., display message
+    
     DrawText("Game Over! All pellets eaten!", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2, 20, RED);
     DrawText("Press R to restart", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 30, 20, RED);
 }
@@ -163,8 +163,7 @@ void OnCollsion(Enemy enemy, Rectangle pacmanPos) {
         TILE_SIZE
     };
     if (CheckCollisionRecs(enemyBox, pacmanPos)) {
-        // Handle collision with pacman
-        // For now: just print a message
+      
         GameOver = true;
         DrawText("Game Over! You Died!", SCREEN_WIDTH / 2 -250 , SCREEN_HEIGHT / 2-100, 50, WHITE);
         Paused = true;
@@ -192,7 +191,7 @@ int main(void) {
         if (IsKeyReleased(KEY_LEFT))  previosDir = LEFT;
         if (IsKeyReleased(KEY_UP))    previosDir = UP;
         if (IsKeyReleased(KEY_DOWN))  previosDir = DOWN; 
-        // 1. Predict next position
+      
         Rectangle nextPos = pacmanPos;
         switch (currentDir) {
             case UP:    nextPos.y -= speed;  break;
@@ -202,23 +201,23 @@ int main(void) {
             default: break;
         }
 
-        // 2. Convert next position to tile grid
+      
         int nextRow = nextPos.y / TILE_SIZE;
         int nextCol = nextPos.x / TILE_SIZE;
 
-        // 3. Collision check
+      
         if (!IsBlocked(nextPos)) {
-            pacmanPos = nextPos; // Move only if no wall
+            pacmanPos = nextPos; 
         } else {
-            currentDir = previosDir; // Revert to previous direction if blocked
+            currentDir = previosDir; 
         }
 
         int pacRow = (int)(pacmanPos.y / TILE_SIZE);
         int pacCol = (int)(pacmanPos.x / TILE_SIZE);
 
-        // If there's a pellet at this tile (0), eat it
+  
         if (maze[pacRow][pacCol] == 0) {
-            maze[pacRow][pacCol] = 2; // 2 = empty, pellet eaten
+            maze[pacRow][pacCol] = 2; 
         score++;
         }
         enemy1 = UpdateEnemy(enemy1);
